@@ -1,6 +1,9 @@
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 const About = () => {
+    const { getLocalizedContent } = useLanguage();
+
     return (
         <div className="bg-white min-h-screen pb-20">
             {/* Hero Section */}
@@ -14,15 +17,15 @@ const About = () => {
 
                 <div className="container mx-auto px-4 relative z-10 text-center">
                     <h1 className="text-4xl md:text-5xl font-bold text-teal-600 mb-4 italic">
-                        Building healthy generations
+                        {getLocalizedContent('about_hero_title', "Building healthy generations")}
                     </h1>
                     <p className="text-xl md:text-2xl text-gray-500 mb-12 font-light italic">
-                        Collectively stop marketing that undermines breastfeeding
+                        {getLocalizedContent('about_hero_subtitle', "Collectively stop marketing that undermines breastfeeding")}
                     </p>
 
                     <div className="max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-2xl">
                         <img
-                            src="/images/about-hero.jpg"
+                            src={localStorage.getItem('about_hero_image') || "/images/about-hero.jpg"}
                             alt="Children playing in nature"
                             className="w-full h-auto object-cover"
                         />
@@ -33,16 +36,16 @@ const About = () => {
             {/* About Us Text Section */}
             <section className="container mx-auto px-4 py-16">
                 <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="text-3xl font-bold text-teal-600 mb-8">About us</h2>
+                    <h2 className="text-3xl font-bold text-teal-600 mb-8">{getLocalizedContent('about_us_title', "About us")}</h2>
                     <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
                         <p>
-                            PelanggaranKode platform is established and managed by a collective initiative that focuses on children's health and nutrition and concerns about the unethical marketing of the industry and its affiliates
+                            {getLocalizedContent('about_p1', "PelanggaranKode platform is established and managed by a collective initiative that focuses on children's health and nutrition and concerns about the unethical marketing of the industry and its affiliates")}
                         </p>
                         <p>
-                            PelanggaranKode is a form of civil society participation to participate in guarding the implementation of the Code and related national regulations.
+                            {getLocalizedContent('about_p2', "PelanggaranKode is a form of civil society participation to participate in guarding the implementation of the Code and related national regulations.")}
                         </p>
                         <p>
-                            PelanggaranKode was established in late 2020 and effectively launched in mid-May 2021. Code Violation is managed collectively by the Indonesian Breastfeeding Mothers Association (AIMI), and Breastfeeding Fathers and supported by UNICEF Indonesia and the Maternal and Child Health Movement (GKIA).
+                            {getLocalizedContent('about_p3', "PelanggaranKode was established in late 2020 and effectively launched in mid-May 2021. Code Violation is managed collectively by the Indonesian Breastfeeding Mothers Association (AIMI), and Breastfeeding Fathers and supported by UNICEF Indonesia and the Maternal and Child Health Movement (GKIA).")}
                         </p>
                     </div>
                 </div>
@@ -51,15 +54,15 @@ const About = () => {
             {/* Team Section */}
             <section className="container mx-auto px-4 py-12">
                 <div className="max-w-2xl mx-auto text-center">
-                    <h2 className="text-3xl font-bold text-teal-600 mb-8">PelanggaranKode Team</h2>
+                    <h2 className="text-3xl font-bold text-teal-600 mb-8">{getLocalizedContent('team_title', "PelanggaranKode Team")}</h2>
 
                     <div className="mb-8">
-                        <h3 className="font-bold text-gray-800 text-xl mb-2">Founding father:</h3>
+                        <h3 className="font-bold text-gray-800 text-xl mb-2">{getLocalizedContent('team_founder_label', "Founding father:")}</h3>
                         <p className="text-gray-600 text-lg">Irma Hidayana</p>
                     </div>
 
                     <div>
-                        <h3 className="font-bold text-gray-800 text-xl mb-4">Manager:</h3>
+                        <h3 className="font-bold text-gray-800 text-xl mb-4">{getLocalizedContent('team_manager_label', "Manager:")}</h3>
                         <div className="space-y-2 text-gray-600 text-lg">
                             <p>Lianita Prawindarti</p>
                             <p>Fitria Rosatriani</p>

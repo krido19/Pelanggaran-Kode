@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Twitter, Mail, MapPin } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const Footer = () => {
+    const { t } = useLanguage();
+
     return (
         <footer className="bg-[#004d4d] text-white pt-16 pb-8">
             <div className="container mx-auto px-4">
@@ -34,17 +37,17 @@ const Footer = () => {
 
                     {/* Column 2: Links */}
                     <div>
-                        <h3 className="text-lg font-bold mb-6 uppercase tracking-wider">Pelanggaran Kode</h3>
+                        <h3 className="text-lg font-bold mb-6 uppercase tracking-wider">{t.footer.quick_links}</h3>
                         <ul className="space-y-3 text-gray-300">
-                            <li><Link to="/about" className="hover:text-white transition">About Us</Link></li>
-                            <li><Link to="/statistics" className="hover:text-white transition">Statistics</Link></li>
-                            <li><Link to="/articles" className="hover:text-white transition">Articles</Link></li>
+                            <li><Link to="/about" className="hover:text-white transition">{t.nav.about}</Link></li>
+                            <li><Link to="/statistics" className="hover:text-white transition">{t.nav.statistics}</Link></li>
+                            <li><Link to="/articles" className="hover:text-white transition">{t.nav.articles}</Link></li>
                         </ul>
                     </div>
 
                     {/* Column 3: Recent Articles */}
                     <div>
-                        <h3 className="text-lg font-bold mb-6 uppercase tracking-wider">Artikel</h3>
+                        <h3 className="text-lg font-bold mb-6 uppercase tracking-wider">{t.nav.articles}</h3>
                         <ul className="space-y-4 text-gray-300 text-sm">
                             <li>
                                 <Link to="/articles/1" className="hover:text-white transition block">
@@ -67,7 +70,7 @@ const Footer = () => {
 
                 {/* Copyright */}
                 <div className="border-t border-teal-800 pt-8 text-center text-gray-400 text-sm flex flex-col md:flex-row justify-between items-center">
-                    <p>&copy; {new Date().getFullYear()} pelanggarankode.org All rights reserved</p>
+                    <p>&copy; {new Date().getFullYear()} pelanggarankode.org {t.footer.rights}</p>
                     <Link to="/dashboard" className="text-gray-500 hover:text-gray-300 text-xs mt-2 md:mt-0 opacity-50 hover:opacity-100">Admin Login</Link>
                 </div>
             </div>

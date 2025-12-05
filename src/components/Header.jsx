@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
     const isHome = location.pathname === '/';
     const [isScrolled, setIsScrolled] = useState(false);
+    const { language, toggleLanguage, t } = useLanguage();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -37,17 +39,31 @@ const Header = () => {
 
                 {/* Desktop Nav */}
                 <nav className="hidden md:flex items-center space-x-8">
-                    <Link to="/" className={navLinkClass}>BERANDA</Link>
-                    <Link to="/statistics" className={navLinkClass}>STATISTIK</Link>
-                    <Link to="/articles" className={navLinkClass}>ARTIKEL</Link>
-                    <Link to="/about" className={navLinkClass}>TENTANG KAMI</Link>
-                    <div className="flex items-center">
+                    <Link to="/" className={navLinkClass}>{t.nav.home}</Link>
+                    <Link to="/statistics" className={navLinkClass}>{t.nav.statistics}</Link>
+                    <Link to="/articles" className={navLinkClass}>{t.nav.articles}</Link>
+                    <Link to="/about" className={navLinkClass}>{t.nav.about}</Link>
+
+                    <button
+                        onClick={toggleLanguage}
+                        className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                        title={language === 'id' ? "Switch to English" : "Ganti ke Bahasa Indonesia"}
+                    >
                         <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Flag_of_Indonesia.svg"
-                            alt="Indonesia"
-                            className="h-4 w-6 shadow-sm"
+                            src={language === 'id'
+                                ? "https://upload.wikimedia.org/wikipedia/commons/9/9f/Flag_of_Indonesia.svg"
+                                : "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"}
+                            alt={language === 'id' ? "Indonesia" : "English"}
+                            className="h-4 w-6 shadow-sm object-cover rounded-sm"
                         />
-                    </div>
+                        <span className={`text-xs font-bold ${isHome && !isScrolled ? 'text-white' : 'text-gray-600'}`}>
+                            {language === 'id' ? 'ID' : 'EN'}
+                        </span>
+                    </button>
+                    {/* Dashboard Link for easy access */}
+                    <Link to="/dashboard" className={`bg-teal-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-teal-700 transition shadow-md`}>
+                        {t.nav.dashboard}
+                    </Link>
                 </nav>
 
                 {/* Mobile Menu Button */}
@@ -62,10 +78,23 @@ const Header = () => {
             {/* Mobile Nav */}
             {isOpen && (
                 <div className="md:hidden bg-white border-t border-gray-100 py-4 px-4 flex flex-col space-y-4 shadow-lg">
-                    <Link to="/" className="text-teal-600 font-bold text-sm" onClick={() => setIsOpen(false)}>BERANDA</Link>
-                    <Link to="/statistics" className="text-teal-600 font-bold text-sm" onClick={() => setIsOpen(false)}>STATISTIK</Link>
-                    <Link to="/articles" className="text-teal-600 font-bold text-sm" onClick={() => setIsOpen(false)}>ARTIKEL</Link>
-                    <Link to="/about" className="text-teal-600 font-bold text-sm" onClick={() => setIsOpen(false)}>TENTANG KAMI</Link>
+                    <Link to="/" className="text-teal-600 font-bold text-sm" onClick={() => setIsOpen(false)}>{t.nav.home}</Link>
+                    <Link to="/statistics" className="text-teal-600 font-bold text-sm" onClick={() => setIsOpen(false)}>{t.nav.statistics}</Link>
+                    <Link to="/articles" className="text-teal-600 font-bold text-sm" onClick={() => setIsOpen(false)}>{t.nav.articles}</Link>
+                    <Link to="/about" className="text-teal-600 font-bold text-sm" onClick={() => setIsOpen(false)}>{t.nav.about}</Link>
+                    <button
+                        onClick={() => { toggleLanguage(); setIsOpen(false); }}
+                        className="flex items-center gap-2 text-teal-600 font-bold text-sm"
+                    >
+                        <img
+                            src={language === 'id'
+                                ? "https://upload.wikimedia.org/wikipedia/commons/9/9f/Flag_of_Indonesia.svg"
+                                : "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg"}
+                            alt={language === 'id' ? "Indonesia" : "English"}
+                            className="h-4 w-6 shadow-sm object-cover rounded-sm"
+                        />
+                        {language === 'id' ? 'Bahasa Indonesia' : 'English'}
+                    </button>
                 </div>
             )}
         </header>

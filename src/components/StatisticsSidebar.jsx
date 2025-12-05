@@ -1,47 +1,109 @@
 import React from 'react';
 import { CheckCircle, XCircle, Clock } from 'lucide-react';
 import { statsData } from '../data/mockData';
+import { useLanguage } from '../context/LanguageContext';
 
 const StatisticsSidebar = () => {
+    const { language } = useLanguage();
+
+    // Stats Labels Translation
+    const t = {
+        id: {
+            verified_reports: 'Laporan Terverifikasi',
+            total_reports: 'Total Laporan',
+            unverified_reports: 'Belum Diverifikasi',
+            rejected_reports: 'Ditolak',
+            age: 'Usia',
+            age_suffix: 'tahun',
+            gender: 'Jenis Kelamin',
+            gender_female: 'Perempuan',
+            gender_male: 'Laki-laki',
+            platform: 'Platform Pelaporan',
+            province_ranking: 'Provinsi pelaporan terbanyak (non-internet)',
+            report_type: 'Jenis Pelaporan',
+            latest_update: 'Pembaruan Terakhir'
+        },
+        en: {
+            verified_reports: 'Verified reports',
+            total_reports: 'Total reports',
+            unverified_reports: 'Has not yet verified',
+            rejected_reports: 'Rejected',
+            age: 'Age',
+            age_suffix: 'year old',
+            gender: 'Gender',
+            gender_female: 'Female',
+            gender_male: 'Male',
+            platform: 'Platform for Reporting',
+            province_ranking: 'Province with the highest non-internet report',
+            report_type: 'Report type',
+            latest_update: 'Latest Update'
+        }
+    }[language];
+
+    // LocalStorage Data (or mock fallback)
+    const verified = localStorage.getItem('stats_verified') || statsData.verifiedReports;
+    const unverified = localStorage.getItem('stats_unverified') || statsData.unverifiedReports;
+    const rejected = localStorage.getItem('stats_rejected') || statsData.rejectedReports;
+
+    // Parse complex stored data or use mock
+    let ageDist = statsData.ageDistribution;
+    let genderDist = statsData.genderDistribution;
+    let platformDist = statsData.platformDistribution;
+    let provinceRanking = statsData.provinceRanking;
+
+    // Attempt to load from localStorage if available (simple JSON check)
+    try {
+        const storedStats = localStorage.getItem('dashboard_stats');
+        if (storedStats) {
+            const parsed = JSON.parse(storedStats);
+            if (parsed.ageDistribution) ageDist = parsed.ageDistribution;
+            if (parsed.genderDistribution) genderDist = parsed.genderDistribution;
+            if (parsed.platformDistribution) platformDist = parsed.platformDistribution;
+            if (parsed.provinceRanking) provinceRanking = parsed.provinceRanking;
+        }
+    } catch (e) {
+        // Fallback to mock
+    }
+
     return (
         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 h-full overflow-y-auto">
             {/* Header Stats */}
             <div className="mb-6">
-                <h2 className="text-3xl font-bold text-teal-600 mb-1">{statsData.verifiedReports}</h2>
-                <p className="text-gray-600 font-medium mb-4">Verified reports</p>
+                <h2 className="text-3xl font-bold text-teal-600 mb-1">{verified}</h2>
+                <p className="text-gray-600 font-medium mb-4">{t.verified_reports}</p>
 
                 <div className="space-y-2">
                     <div className="flex justify-between items-center text-sm">
                         <div className="flex items-center gap-2 text-gray-600">
                             <CheckCircle size={16} className="text-gray-400" />
-                            <span>Total reports</span>
+                            <span>{t.total_reports}</span>
                         </div>
-                        <span className="font-bold text-teal-600">{statsData.verifiedReports}</span>
+                        <span className="font-bold text-teal-600">{verified}</span>
                     </div>
                     <div className="border-b border-gray-100"></div>
                     <div className="flex justify-between items-center text-sm">
                         <div className="flex items-center gap-2 text-gray-600">
                             <Clock size={16} className="text-gray-400" />
-                            <span>Has not yet verified</span>
+                            <span>{t.unverified_reports}</span>
                         </div>
-                        <span className="font-bold text-orange-500">{statsData.unverifiedReports}</span>
+                        <span className="font-bold text-orange-500">{unverified}</span>
                     </div>
                     <div className="border-b border-gray-100"></div>
                     <div className="flex justify-between items-center text-sm">
                         <div className="flex items-center gap-2 text-gray-600">
                             <XCircle size={16} className="text-gray-400" />
-                            <span>Rejected</span>
+                            <span>{t.rejected_reports}</span>
                         </div>
-                        <span className="font-bold text-red-500">{statsData.rejectedReports}</span>
+                        <span className="font-bold text-red-500">{rejected}</span>
                     </div>
                 </div>
             </div>
 
             {/* Age Distribution */}
             <div className="mb-8">
-                <h3 className="font-bold text-gray-800 mb-4">Age</h3>
+                <h3 className="font-bold text-gray-800 mb-4">{t.age}</h3>
                 <div className="space-y-4">
-                    {statsData.ageDistribution.map((item, index) => (
+                    {ageDist.map((item, index) => (
                         <div key={index}>
                             <div className="flex justify-between text-xs mb-1">
                                 <span className="text-gray-600">{item.label}</span>
@@ -60,24 +122,24 @@ const StatisticsSidebar = () => {
 
             {/* Gender Distribution */}
             <div className="mb-8">
-                <h3 className="font-bold text-gray-800 mb-4">Gender</h3>
+                <h3 className="font-bold text-gray-800 mb-4">{t.gender}</h3>
                 <div className="flex h-4 rounded-full overflow-hidden mb-2">
-                    <div className="bg-pink-500 h-full" style={{ width: '86.6%' }}></div>
-                    <div className="bg-teal-600 h-full" style={{ width: '10%' }}></div>
-                    <div className="bg-gray-300 h-full" style={{ width: '3.4%' }}></div>
+                    <div className="bg-pink-500 h-full" style={{ width: `${genderDist.female}%` }}></div>
+                    <div className="bg-teal-600 h-full" style={{ width: `${genderDist.male}%` }}></div>
+                    <div className="bg-gray-300 h-full" style={{ width: `${genderDist.na}%` }}></div>
                 </div>
                 <div className="flex justify-between text-xs text-gray-600">
-                    <div className="flex items-center gap-1"><div className="w-2 h-2 bg-pink-500 rounded-sm"></div> Female</div>
-                    <div className="flex items-center gap-1"><div className="w-2 h-2 bg-teal-600 rounded-sm"></div> Male</div>
+                    <div className="flex items-center gap-1"><div className="w-2 h-2 bg-pink-500 rounded-sm"></div> {t.gender_female}</div>
+                    <div className="flex items-center gap-1"><div className="w-2 h-2 bg-teal-600 rounded-sm"></div> {t.gender_male}</div>
                     <div className="flex items-center gap-1"><div className="w-2 h-2 bg-gray-300 rounded-sm"></div> N/A</div>
                 </div>
             </div>
 
             {/* Platform */}
             <div className="mb-8">
-                <h3 className="font-bold text-gray-800 mb-4">Platform for Reporting</h3>
+                <h3 className="font-bold text-gray-800 mb-4">{t.platform}</h3>
                 <div className="space-y-4">
-                    {statsData.platformDistribution.map((item, index) => (
+                    {platformDist.map((item, index) => (
                         <div key={index}>
                             <div className="flex justify-between text-xs mb-1">
                                 <span className="text-gray-600">{item.label}</span>
@@ -96,9 +158,9 @@ const StatisticsSidebar = () => {
 
             {/* Province Ranking */}
             <div className="mb-8">
-                <h3 className="font-bold text-gray-800 mb-4">Province with the highest non-internet report</h3>
+                <h3 className="font-bold text-gray-800 mb-4">{t.province_ranking}</h3>
                 <div className="space-y-3">
-                    {statsData.provinceRanking.map((item, index) => (
+                    {provinceRanking.map((item, index) => (
                         <div key={index} className="flex items-center justify-between text-sm">
                             <div className="flex items-center gap-3">
                                 <span className="w-5 h-5 flex items-center justify-center bg-gray-100 rounded text-xs font-bold text-gray-600">{item.rank}</span>
@@ -110,9 +172,10 @@ const StatisticsSidebar = () => {
                 </div>
             </div>
 
-            {/* Report Types */}
+            {/* Report Types - Using static labels because types might be hardcoded in mock data */}
             <div className="mb-8">
-                <h3 className="font-bold text-gray-800 mb-4">Report type</h3>
+                <h3 className="font-bold text-gray-800 mb-4">{t.report_type}</h3>
+                {/* This section would need more complex logic if Report Types text itself needs translation, keeping it simple for now */}
                 <div className="space-y-3">
                     {statsData.reportTypes.map((item, index) => (
                         <div key={index} className="flex justify-between text-sm border-b border-gray-50 pb-2 last:border-0">
@@ -124,7 +187,7 @@ const StatisticsSidebar = () => {
             </div>
 
             <div className="text-xs text-gray-400 pt-4 border-t border-gray-100">
-                Latest Update: {statsData.lastUpdate}
+                {t.latest_update}: {statsData.lastUpdate}
             </div>
         </div>
     );

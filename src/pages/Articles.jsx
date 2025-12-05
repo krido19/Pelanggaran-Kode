@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { articles } from '../data/mockData';
+import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const Articles = () => {
+    const { t, language } = useLanguage();
+
     // State for pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(6); // Default to 6 for grid layout
@@ -30,21 +34,21 @@ const Articles = () => {
     };
 
     return (
-        <div className="bg-gray-50 min-h-screen py-12">
+        <div className="bg-gray-50 min-h-screen py-16">
             <div className="container mx-auto px-4">
-                <div className="text-center mb-12">
-                    <h1 className="text-4xl font-bold text-teal-700 mb-4">Articles</h1>
-                    <p className="text-gray-600 max-w-2xl mx-auto">
-                        Latest news, updates, and educational resources about the International Code of Marketing of Breastmilk Substitutes.
-                    </p>
-                </div>
+                <h1 className="text-4xl font-bold text-teal-800 mb-2 text-center">{t.nav.articles}</h1>
+                <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+                    {language === 'id'
+                        ? 'Temukan informasi terbaru, analisis, dan berita seputar kode etik pemasaran pengganti ASI.'
+                        : 'Discover the latest information, analysis, and news regarding the international code of marketing of breast-milk substitutes.'}
+                </p>
 
                 {/* Search/Filter Mock */}
                 <div className="max-w-md mx-auto mb-12">
                     <div className="relative">
                         <input
                             type="text"
-                            placeholder="Search articles..."
+                            placeholder={language === 'id' ? "Cari artikel..." : "Search articles..."}
                             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 shadow-sm"
                         />
                         <button className="absolute right-3 top-3 text-gray-400 hover:text-teal-600">
@@ -118,8 +122,8 @@ const Articles = () => {
                                 key={page}
                                 onClick={() => handlePageChange(page)}
                                 className={`w-8 h-8 flex items-center justify-center rounded font-medium transition ${currentPage === page
-                                        ? 'bg-teal-600 text-white'
-                                        : 'text-teal-600 hover:bg-teal-50'
+                                    ? 'bg-teal-600 text-white'
+                                    : 'text-teal-600 hover:bg-teal-50'
                                     }`}
                             >
                                 {page}
