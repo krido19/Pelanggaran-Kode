@@ -73,10 +73,10 @@ const Articles = () => {
                                     {article.date}
                                 </div>
                                 <h3 className="text-xl font-bold text-teal-700 mb-3 leading-tight hover:text-teal-800 transition">
-                                    <a href="#">{article.title}</a>
+                                    <a href="#">{language === 'id' ? article.title : article.title_en}</a>
                                 </h3>
                                 <p className="text-gray-600 mb-4 line-clamp-3 text-sm flex-1">
-                                    {article.excerpt}
+                                    {language === 'id' ? article.excerpt : article.excerpt_en}
                                 </p>
                                 <div className="mt-auto pt-4 border-t border-gray-50 flex justify-between items-center text-sm text-gray-500">
                                     <span>By {article.author}</span>

@@ -13,18 +13,18 @@ const Footer = () => {
                     {/* Column 1: Identity */}
                     <div>
                         <Link to="/" className="text-2xl font-bold text-teal-400 mb-6 block">
-                            Pelanggaran<br />Kode.org
+                            Pantau<br />Etika.org
                         </Link>
-                        <p className="font-bold mb-4">Koalisi Warga untuk Kesehatan Anak</p>
+                        <p className="font-bold mb-4">Koalisi Kesehatan Ibu dan Anak</p>
 
                         <div className="space-y-3 text-sm text-gray-300">
                             <div className="flex items-center gap-2">
                                 <Mail size={16} />
-                                <a href="mailto:pelanggarankode@gmail.com" className="hover:text-white">pelanggarankode@gmail.com</a>
+                                <a href="mailto:info@pantauetika.org" className="hover:text-white">info@pantauetika.org</a>
                             </div>
                             <div className="flex items-start gap-2">
                                 <MapPin size={16} className="mt-1 flex-shrink-0" />
-                                <p>Bona Indah Plaza, Lebak Bulus, DKI Jakarta, INDONESIA</p>
+                                <p>Jakarta, Indonesia</p>
                             </div>
                         </div>
 
@@ -51,17 +51,17 @@ const Footer = () => {
                         <ul className="space-y-4 text-gray-300 text-sm">
                             <li>
                                 <Link to="/articles/1" className="hover:text-white transition block">
-                                    Zig-Zag Susu Formula di Tengah Pandemi
+                                    Dampak Iklan Susu Formula Terhadap Kesehatan Bayi
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/articles/2" className="hover:text-white transition block">
-                                    Produsen Susu Formula Tidak Takut pada Kode Etik Internasional
+                                    Memahami Kode Etik Pemasaran Internasional
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/articles/3" className="hover:text-white transition block">
-                                    Milking It – Bagaimana Perusahaan Susu Formula Menempatkan Keuntungan Sebelum Sains
+                                    Pentingnya Dukungan Menyusui di Tempat Kerja
                                 </Link>
                             </li>
                         </ul>
@@ -70,7 +70,7 @@ const Footer = () => {
 
                 {/* Copyright */}
                 <div className="border-t border-teal-800 pt-8 text-center text-gray-400 text-sm flex flex-col md:flex-row justify-between items-center">
-                    <p>&copy; {new Date().getFullYear()} pelanggarankode.org {t.footer.rights}</p>
+                    <p>&copy; {new Date().getFullYear()} pantauetika.org {t.footer.rights}</p>
                     <Link to="/dashboard" className="text-gray-500 hover:text-gray-300 text-xs mt-2 md:mt-0 opacity-50 hover:opacity-100">Admin Login</Link>
                 </div>
             </div>

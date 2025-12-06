@@ -17,10 +17,10 @@ const About = () => {
 
                 <div className="container mx-auto px-4 relative z-10 text-center">
                     <h1 className="text-4xl md:text-5xl font-bold text-teal-600 mb-4 italic">
-                        {getLocalizedContent('about_hero_title', "Building healthy generations")}
+                        {getLocalizedContent('about_hero_title', "Membangun Generasi Emas")}
                     </h1>
                     <p className="text-xl md:text-2xl text-gray-500 mb-12 font-light italic">
-                        {getLocalizedContent('about_hero_subtitle', "Collectively stop marketing that undermines breastfeeding")}
+                        {getLocalizedContent('about_hero_subtitle', "Bersama mengawasi etika pemasaran produk nutrisi anak")}
                     </p>
 
                     <div className="max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-2xl">
@@ -36,16 +36,16 @@ const About = () => {
             {/* About Us Text Section */}
             <section className="container mx-auto px-4 py-16">
                 <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="text-3xl font-bold text-teal-600 mb-8">{getLocalizedContent('about_us_title', "About us")}</h2>
+                    <h2 className="text-3xl font-bold text-teal-600 mb-8">{getLocalizedContent('about_us_title', "Tentang Kami")}</h2>
                     <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
                         <p>
-                            {getLocalizedContent('about_p1', "PelanggaranKode platform is established and managed by a collective initiative that focuses on children's health and nutrition and concerns about the unethical marketing of the industry and its affiliates")}
+                            {getLocalizedContent('about_p1', "Inisiatif ini dibentuk oleh koalisi masyarakat sipil yang peduli terhadap kesehatan ibu dan anak, khususnya dalam aspek perlindungan pemberian ASI eksklusif dari pengaruh pemasaran yang tidak etis.")}
                         </p>
                         <p>
-                            {getLocalizedContent('about_p2', "PelanggaranKode is a form of civil society participation to participate in guarding the implementation of the Code and related national regulations.")}
+                            {getLocalizedContent('about_p2', "Kami berfungsi sebagai wadah partisipasi publik untuk memantau implementasi Kode Etik Internasional dan regulasi nasional terkait pemasaran produk pengganti ASI di Indonesia.")}
                         </p>
                         <p>
-                            {getLocalizedContent('about_p3', "PelanggaranKode was established in late 2020 and effectively launched in mid-May 2021. Code Violation is managed collectively by the Indonesian Breastfeeding Mothers Association (AIMI), and Breastfeeding Fathers and supported by UNICEF Indonesia and the Maternal and Child Health Movement (GKIA).")}
+                            {getLocalizedContent('about_p3', "Didirikan pada tahun 2021, platform ini dikelola secara kolaboratif oleh berbagai organisasi kesehatan dan didukung oleh mitra internasional untuk memastikan setiap anak mendapatkan hak nutrisi terbaiknya.")}
                         </p>
                     </div>
                 </div>
@@ -54,24 +54,20 @@ const About = () => {
             {/* Team Section */}
             <section className="container mx-auto px-4 py-12">
                 <div className="max-w-2xl mx-auto text-center">
-                    <h2 className="text-3xl font-bold text-teal-600 mb-8">{getLocalizedContent('team_title', "PelanggaranKode Team")}</h2>
+                    <h2 className="text-3xl font-bold text-teal-600 mb-8">{getLocalizedContent('team_title', "Tim Kami")}</h2>
 
                     <div className="mb-8">
-                        <h3 className="font-bold text-gray-800 text-xl mb-2">{getLocalizedContent('team_founder_label', "Founding father:")}</h3>
-                        <p className="text-gray-600 text-lg">Irma Hidayana</p>
+                        <h3 className="font-bold text-gray-800 text-xl mb-2">{getLocalizedContent('team_founder_label', "Koordinator Utama:")}</h3>
+                        <p className="text-gray-600 text-lg">Dr. I. Hidayana</p>
                     </div>
 
                     <div>
-                        <h3 className="font-bold text-gray-800 text-xl mb-4">{getLocalizedContent('team_manager_label', "Manager:")}</h3>
+                        <h3 className="font-bold text-gray-800 text-xl mb-4">{getLocalizedContent('team_manager_label', "Tim Pengelola:")}</h3>
                         <div className="space-y-2 text-gray-600 text-lg">
-                            <p>Lianita Prawindarti</p>
-                            <p>Fitria Rosatriani</p>
-                            <p>Nia Umar</p>
-                            <p>Irma Hidayana</p>
-                            <p>Kusmayra Ambarwati</p>
-                            <p>Rahmat Hidayat</p>
-                            <p>Reza Oscar</p>
-                            <p>Veby Mayfriandi</p>
+                            <p>L. Prawindarti</p>
+                            <p>F. Rosatriani</p>
+                            <p>N. Umar</p>
+                            <p>Tim Advokasi & Riset</p>
                         </div>
                     </div>
                 </div>

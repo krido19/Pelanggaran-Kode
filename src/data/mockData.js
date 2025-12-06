@@ -1,56 +1,3 @@
-export const statsData = {
-    verifiedReports: 1425,
-    unverifiedReports: 0,
-    rejectedReports: 0,
-    ageDistribution: [
-        { label: '18-20 year old', value: 1.9 },
-        { label: '21-25 Year old', value: 6.8 },
-        { label: '25-30 year old', value: 21.7 },
-        { label: '30-40 year old', value: 27.2 },
-        { label: '40-55 year old', value: 33.3 },
-        { label: '>55 year old', value: 0.5 },
-    ],
-    genderDistribution: {
-        female: 86.6,
-        male: 10.0,
-        na: 3.4
-    },
-    platformDistribution: [
-        { label: 'WhatsApp', value: 86.6 },
-        { label: 'Telegram', value: 5.0 },
-    ],
-    provinceRanking: [
-        { rank: 1, name: 'Dki Jakarta', count: 59 },
-        { rank: 2, name: 'Jawa Timur', count: 50 },
-        { rank: 3, name: 'Jawa Barat', count: 47 },
-        { rank: 4, name: 'Banten', count: 35 },
-        { rank: 5, name: 'Jawa Tengah', count: 27 },
-    ],
-    reportTypes: [
-        { label: 'From internet', count: 967 },
-        { label: 'Advertisements on Social Media', count: 478 },
-        { label: 'Advertisements on marketplace websites', count: 19 },
-        { label: 'Direct contact by the company...', count: 75 },
-        { label: 'Sponsorship or collaboration...', count: 200 },
-        { label: 'Other reports on internet', count: 195 },
-        { label: 'Outside the internet', count: 338 },
-        { label: 'Sponsorship for health workers...', count: 11 },
-        { label: 'Giving free product samples', count: 69 },
-        { label: 'Gifts for health workers', count: 4 },
-        { label: 'Cooperation/assistance during disaster...', count: 1 },
-        { label: 'Gifts for women/families', count: 35 },
-        { label: 'Promotion in a store/office...', count: 69 },
-        { label: 'Others reports on non-internet', count: 85 },
-        { label: 'Label or package products...', count: 7 },
-        { label: 'Sponsorship or partnership...', count: 21 },
-        { label: 'Breastmilk substitutes donations', count: 12 },
-        { label: 'Sponsorship for a research project...', count: 4 },
-        { label: 'Promotion at hospitals...', count: 12 },
-        { label: 'Called or visited directly by sales', count: 1 },
-        { label: 'Medical equipment supplies...', count: 7 },
-    ],
-    lastUpdate: '5 Des 2025, 12.46 WIB'
-};
 
 const manualMarkers = [
     {
@@ -317,36 +264,64 @@ const provinceCoordinates = {
     "Papua": { lat: -4.2699, lng: 138.0804 }
 };
 
-// Generate 1000 Dummy Reports
-const generateReports = (count) => {
+const businessNames = [
+    "Apotek K24", "Indomaret Point", "Alfamart", "Hypermart", "Transmart", "Superindo",
+    "RSIA Bunda", "RS Hermina", "Klinik Bidan Mandiri", "Toko Susu Murah", "Baby Shop Jaya",
+    "Puskesmas Kecamatan", "Toko Perlengkapan Bayi", "Mall Grand Indonesia", "Plaza Senayan",
+    "Pasar Tradisional", "RSUD Kabupaten", "Klinik Pratama", "Apotek Kimia Farma"
+];
+
+const islandSpecifics = {
+    "Sumatera": ["Aceh", "Sumatera Utara", "Sumatera Barat", "Riau", "Jambi", "Sumatera Selatan", "Bengkulu", "Lampung"],
+    "Jawa": ["Dki Jakarta", "Jawa Barat", "Jawa Tengah", "Di Yogyakarta", "Jawa Timur", "Banten"],
+    "Kalimantan": ["Kalimantan Barat", "Kalimantan Tengah", "Kalimantan Selatan", "Kalimantan Timur", "Kalimantan Utara"],
+    "Sulawesi": ["Sulawesi Utara", "Sulawesi Tengah", "Sulawesi Selatan", "Sulawesi Tenggara", "Gorontalo", "Sulawesi Barat"],
+    "BaliNusa": ["Bali", "Nusa Tenggara Barat", "Nusa Tenggara Timur"],
+    "PapuaMaluku": ["Maluku", "Maluku Utara", "Papua Barat", "Papua"]
+};
+
+// Generate 300 Dummy Reports
+const generateReports = (count = 300) => {
     const reports = [];
     for (let i = 0; i < count; i++) {
-        const isInternet = Math.random() > 0.5;
+        const isInternet = Math.random() > 0.4; // 60% non-internet (physical locations)
         const category = isInternet ? "internet" : "non-internet";
         const typeList = isInternet ? reportTypesInternet : reportTypesNonInternet;
         const reportType = typeList[Math.floor(Math.random() * typeList.length)];
+
+        // Select Province
         const province = provinces[Math.floor(Math.random() * provinces.length)];
+        const center = provinceCoordinates[province] || { lat: -6.2088, lng: 106.8456 };
 
-        // Get center coords for the province
-        const center = provinceCoordinates[province] || { lat: -6.2088, lng: 106.8456 }; // Default Jakarta
+        // Add variation (approx +/- 0.8 degrees for realistic spread)
+        const lat = center.lat + (Math.random() - 0.5) * 1.6;
+        const lng = center.lng + (Math.random() - 0.5) * 1.6;
 
-        // Add small random variation to distribute within province (approx +/- 0.5 degrees)
-        const lat = center.lat + (Math.random() - 0.5) * 1.0;
-        const lng = center.lng + (Math.random() - 0.5) * 1.0;
+        const business = businessNames[Math.floor(Math.random() * businessNames.length)];
+        const age = Math.floor(Math.random() * 35) + 20; // 20-55
+
+        let title, description;
+        if (isInternet) {
+            title = `${reportType} - ${platforms[Math.floor(Math.random() * platforms.length)]}`;
+            description = `Ditemukan promosi pelanggaran kode etik di ${platforms[Math.floor(Math.random() * platforms.length)]} berupa ${reportType.toLowerCase()}.`;
+        } else {
+            title = `${reportType} di ${business}`;
+            description = `Laporan pelanggaran di ${business}, daerah ${province}. ${reportType} ditemukan di lokasi.`;
+        }
 
         reports.push({
-            id: 100 + i, // Start IDs after manual ones
+            id: 100 + i,
             position: [lat, lng],
-            title: `Report #${100 + i}`,
-            demographics: "Generated User",
-            description: `Auto-generated report for ${reportType}`,
-            image: "https://placehold.co/100x100",
+            title: title,
+            demographics: `${genders[Math.floor(Math.random() * genders.length)] === 'female' ? 'Ibu' : 'Bapak'}, ${age} Tahun`,
+            description: description,
+            image: `https://placehold.co/400x300?text=Bukti+Laporan+${100 + i}`,
             originalCoords: `${lng.toFixed(4)}, ${lat.toFixed(4)}`,
             status: statuses[Math.floor(Math.random() * statuses.length)],
-            age: Math.floor(Math.random() * 40) + 18, // 18-58
+            age: age,
             gender: genders[Math.floor(Math.random() * genders.length)],
             province: province,
-            platform: platforms[Math.floor(Math.random() * platforms.length)],
+            platform: isInternet ? platforms[Math.floor(Math.random() * 5)] : "Direct",
             reportType: reportType,
             category: category
         });
@@ -354,13 +329,83 @@ const generateReports = (count) => {
     return reports;
 };
 
-export const mapMarkers = [...manualMarkers, ...generateReports(1000)];
+export const mapMarkers = [...manualMarkers, ...generateReports(300)];
+
+// Calculate stats dynamically from mapMarkers
+const verifiedReports = mapMarkers.filter(m => m.status === 'verified').length;
+const unverifiedReports = mapMarkers.filter(m => m.status === 'unverified').length;
+const rejectedReports = mapMarkers.filter(m => m.status === 'rejected').length;
+
+// Calculate reportTypes dynamically
+// Calculate reportTypes dynamically
+const internetCounts = {};
+const nonInternetCounts = {};
+const totalCounts = {};
+
+mapMarkers.forEach(marker => {
+    const type = marker.reportType;
+    if (type) {
+        // Total
+        totalCounts[type] = (totalCounts[type] || 0) + 1;
+
+        // Split by category
+        if (marker.category === 'internet') {
+            internetCounts[type] = (internetCounts[type] || 0) + 1;
+        } else {
+            nonInternetCounts[type] = (nonInternetCounts[type] || 0) + 1;
+        }
+    }
+});
+
+const formatStats = (counts) => Object.keys(counts)
+    .map(label => ({ label, count: counts[label] }))
+    .sort((a, b) => b.count - a.count);
+
+const dynamicReportTypes = formatStats(totalCounts);
+const internetReportStats = formatStats(internetCounts); // Renamed to avoid conflict
+const nonInternetReportStats = formatStats(nonInternetCounts); // Renamed to avoid conflict
+
+export const statsData = {
+    verifiedReports,
+    unverifiedReports,
+    rejectedReports,
+    ageDistribution: [
+        { label: '18-20 year old', value: 1.9 },
+        { label: '21-25 Year old', value: 6.8 },
+        { label: '25-30 year old', value: 21.7 },
+        { label: '30-40 year old', value: 27.2 },
+        { label: '40-55 year old', value: 33.3 },
+        { label: '>55 year old', value: 0.5 },
+    ],
+    genderDistribution: {
+        female: 86.6,
+        male: 10.0,
+        na: 3.4
+    },
+    platformDistribution: [
+        { label: 'WhatsApp', value: 86.6 },
+        { label: 'Telegram', value: 5.0 },
+    ],
+    provinceRanking: [
+        { rank: 1, name: 'Dki Jakarta', count: 59 },
+        { rank: 2, name: 'Jawa Timur', count: 50 },
+        { rank: 3, name: 'Jawa Barat', count: 47 },
+        { rank: 4, name: 'Banten', count: 35 },
+        { rank: 5, name: 'Jawa Tengah', count: 27 },
+    ],
+    reportTypes: dynamicReportTypes,
+    reportTypesInternet: internetReportStats,
+    reportTypesNonInternet: nonInternetReportStats,
+    lastUpdate: '6 Des 2025' // Dynamic calculation means fresh data
+};
 
 export const articles = [
     {
         id: 1,
         title: "Pelanggaran Kode Etik Pemasaran Susu Formula Meningkat di Era Digital",
+        title_en: "Violations of Formula Milk Marketing Code Increase in Digital Era",
         excerpt: "Laporan terbaru menunjukkan peningkatan signifikan dalam promosi terselubung melalui media sosial dan influencer.",
+        excerpt_en: "Recent reports show a significant increase in covert promotion through social media and influencers.",
         date: "5 Desember 2025",
         image: "https://placehold.co/600x400",
         author: "Tim Redaksi"
@@ -368,7 +413,9 @@ export const articles = [
     {
         id: 2,
         title: "Mengapa ASI Eksklusif Penting untuk 6 Bulan Pertama?",
+        title_en: "Why Exclusive Breastfeeding is Important for the First 6 Months?",
         excerpt: "Penjelasan medis dan psikologis mengenai manfaat ASI eksklusif bagi tumbuh kembang bayi dan kesehatan ibu.",
+        excerpt_en: "Medical and psychological explanation regarding the benefits of exclusive breastfeeding for infant growth and maternal health.",
         date: "2 Desember 2025",
         image: "https://placehold.co/600x400",
         author: "Dr. Siti Aminah"
@@ -376,7 +423,9 @@ export const articles = [
     {
         id: 3,
         title: "Cara Melaporkan Pelanggaran Kode Etik di Fasilitas Kesehatan",
+        title_en: "How to Report Code of Ethics Violations in Health Facilities",
         excerpt: "Panduan langkah demi langkah bagi masyarakat untuk melaporkan promosi susu formula yang tidak etis di rumah sakit dan klinik.",
+        excerpt_en: "Step-by-step guide for the public to report unethical formula milk promotions in hospitals and clinics.",
         date: "28 November 2025",
         image: "https://placehold.co/600x400",
         author: "Admin"
@@ -384,7 +433,9 @@ export const articles = [
     {
         id: 4,
         title: "Dampak Iklan Susu Formula Terhadap Keputusan Ibu Menyusui",
+        title_en: "Impact of Formula Milk Ads on Breastfeeding Mothers' Decisions",
         excerpt: "Studi kasus mengenai bagaimana paparan iklan mempengaruhi kepercayaan diri ibu dalam memberikan ASI eksklusif.",
+        excerpt_en: "Case study on how ad exposure affects mothers' confidence in providing exclusive breastfeeding.",
         date: "25 November 2025",
         image: "https://placehold.co/600x400",
         author: "Dr. Budi Santoso"
@@ -392,7 +443,9 @@ export const articles = [
     {
         id: 5,
         title: "Peran Tenaga Kesehatan dalam Mendukung ASI Eksklusif",
+        title_en: "The Role of Health Workers in Supporting Exclusive Breastfeeding",
         excerpt: "Tenaga kesehatan memiliki peran krusial dalam memberikan edukasi yang benar dan tidak bias mengenai nutrisi bayi.",
+        excerpt_en: "Health workers have a crucial role in providing correct and unbiased education regarding infant nutrition.",
         date: "20 November 2025",
         image: "https://placehold.co/600x400",
         author: "Bidan Ani"
@@ -400,7 +453,9 @@ export const articles = [
     {
         id: 6,
         title: "Mengenal Kode Etik Internasional Pemasaran Pengganti ASI",
+        title_en: "Getting to Know the International Code of Marketing of Breast-milk Substitutes",
         excerpt: "Sejarah dan tujuan utama dari Kode WHO yang bertujuan melindungi praktik menyusui di seluruh dunia.",
+        excerpt_en: "History and main objectives of the WHO Code aimed at protecting breastfeeding practices worldwide.",
         date: "15 November 2025",
         image: "https://placehold.co/600x400",
         author: "Tim Edukasi"
@@ -408,7 +463,9 @@ export const articles = [
     {
         id: 7,
         title: "Mitos dan Fakta Seputar Susu Formula",
+        title_en: "Myths and Facts Surrounding Formula Milk",
         excerpt: "Mengupas tuntas berbagai mitos yang beredar di masyarakat mengenai keunggulan susu formula dibandingkan ASI.",
+        excerpt_en: "Thoroughly debunking various myths circulating in society regarding the superiority of formula milk compared to breast milk.",
         date: "10 November 2025",
         image: "https://placehold.co/600x400",
         author: "Ahli Gizi Rina"
@@ -416,7 +473,9 @@ export const articles = [
     {
         id: 8,
         title: "Dukungan Ayah dalam Keberhasilan Menyusui",
+        title_en: "Father's Support in Breastfeeding Success",
         excerpt: "Bagaimana peran aktif ayah dapat meningkatkan tingkat keberhasilan dan durasi pemberian ASI.",
+        excerpt_en: "How active father involvement can increase the success rate and duration of breastfeeding.",
         date: "5 November 2025",
         image: "https://placehold.co/600x400",
         author: "Komunitas Ayah ASI"
@@ -424,7 +483,9 @@ export const articles = [
     {
         id: 9,
         title: "Regulasi Pemerintah Indonesia Terkait Pemasaran Susu Formula",
+        title_en: "Indonesian Government Regulations Regarding Formula Milk Marketing",
         excerpt: "Tinjauan hukum mengenai peraturan yang berlaku di Indonesia untuk mengawasi pemasaran produk pengganti ASI.",
+        excerpt_en: "Legal review of regulations in force in Indonesia to supervise the marketing of breast milk substitute products.",
         date: "1 November 2025",
         image: "https://placehold.co/600x400",
         author: "LBH Kesehatan"
@@ -432,7 +493,9 @@ export const articles = [
     {
         id: 10,
         title: "Nutrisi Penting dalam ASI yang Tidak Ada di Susu Formula",
+        title_en: "Essential Nutrients in Breast Milk Not Found in Formula Milk",
         excerpt: "Penjelasan mendalam mengenai komponen bioaktif dalam ASI yang tidak dapat ditiru oleh produk buatan manusia.",
+        excerpt_en: "In-depth explanation of bioactive components in breast milk that cannot be replicated by man-made products.",
         date: "28 Oktober 2025",
         image: "https://placehold.co/600x400",
         author: "Dr. Citra Sp.A"
@@ -440,7 +503,9 @@ export const articles = [
     {
         id: 11,
         title: "Strategi Menghadapi Tekanan Pemasaran Susu Formula",
+        title_en: "Strategies to Face Formula Milk Marketing Pressure",
         excerpt: "Tips bagi orang tua baru untuk tetap teguh memberikan ASI di tengah gempuran promosi produk pengganti ASI.",
+        excerpt_en: "Tips for new parents to remain firm in providing breast milk amidst the onslaught of breast milk substitute product promotions.",
         date: "25 Oktober 2025",
         image: "https://placehold.co/600x400",
         author: "Konselor Laktasi"
@@ -448,7 +513,9 @@ export const articles = [
     {
         id: 12,
         title: "Pentingnya Inisiasi Menyusu Dini (IMD)",
+        title_en: "The Importance of Early Initiation of Breastfeeding (IMD)",
         excerpt: "Manfaat jangka panjang dari kontak kulit-ke-kulit segera setelah lahir bagi ibu dan bayi.",
+        excerpt_en: "Long-term benefits of skin-to-skin contact immediately after birth for mother and baby.",
         date: "20 Oktober 2025",
         image: "https://placehold.co/600x400",
         author: "Bidan Sari"

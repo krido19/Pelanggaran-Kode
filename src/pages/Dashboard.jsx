@@ -28,6 +28,12 @@ const Dashboard = () => {
     const [currentReport, setCurrentReport] = useState(null);
     const [uploading, setUploading] = useState(false);
 
+    // Filter & Pagination State
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterStatus, setFilterStatus] = useState('all');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 6; // Adjusted for card layout
+
     // Persist Stats to LocalStorage
     useEffect(() => {
         localStorage.setItem('dashboard_stats', JSON.stringify(stats));
@@ -268,6 +274,30 @@ const Dashboard = () => {
         }
     };
 
+
+    // Filter Logic
+    const filteredReports = reports.filter(report => {
+        const matchesSearch =
+            report.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            report.id.toString().includes(searchTerm) ||
+            (report.province && report.province.toLowerCase().includes(searchTerm.toLowerCase()));
+
+        const matchesStatus = filterStatus === 'all' || report.status === filterStatus;
+
+        return matchesSearch && matchesStatus;
+    });
+
+    // Pagination Logic
+    const totalPages = Math.ceil(filteredReports.length / itemsPerPage);
+    const currentReports = filteredReports.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="flex justify-between items-center mb-8">
@@ -424,57 +454,121 @@ const Dashboard = () => {
                         ))}
                     </div>
 
-                    <div className="mb-6">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="font-bold text-gray-700">Report Types</h3>
-                            <button
-                                onClick={() => {
-                                    const newTypes = [
-                                        ...stats.reportTypes,
-                                        { label: '', count: 0 }
-                                    ];
-                                    setStats({ ...stats, reportTypes: newTypes });
-                                }}
-                                className="text-sm text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1"
-                            >
-                                <Plus size={14} /> Add Type
-                            </button>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        {/* Report Types - Internet */}
+                        <div>
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="font-bold text-gray-700">Report Types (Internet)</h3>
+                                <button
+                                    onClick={() => {
+                                        const newTypes = [
+                                            ...(stats.reportTypesInternet || []),
+                                            { label: '', count: 0 }
+                                        ];
+                                        setStats({ ...stats, reportTypesInternet: newTypes });
+                                    }}
+                                    className="text-sm text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1"
+                                >
+                                    <Plus size={14} /> Add Type
+                                </button>
+                            </div>
+                            <div className="max-h-60 overflow-y-auto pr-2 border border-gray-100 rounded-lg p-2">
+                                {(stats.reportTypesInternet || []).map((item, index) => (
+                                    <div key={index} className="flex gap-4 mb-2">
+                                        <input
+                                            type="text"
+                                            value={item.label}
+                                            onChange={(e) => {
+                                                const newTypes = [...(stats.reportTypesInternet || [])];
+                                                newTypes[index].label = e.target.value;
+                                                setStats({ ...stats, reportTypesInternet: newTypes });
+                                            }}
+                                            className="flex-1 p-2 border border-gray-300 rounded-lg text-sm"
+                                            placeholder="Type Name"
+                                        />
+                                        <input
+                                            type="number"
+                                            value={item.count}
+                                            onChange={(e) => {
+                                                const newTypes = [...(stats.reportTypesInternet || [])];
+                                                newTypes[index].count = parseInt(e.target.value);
+                                                setStats({ ...stats, reportTypesInternet: newTypes });
+                                            }}
+                                            className="w-20 p-2 border border-gray-300 rounded-lg text-sm"
+                                        />
+                                        <button
+                                            onClick={() => {
+                                                const newTypes = stats.reportTypesInternet.filter((_, i) => i !== index);
+                                                setStats({ ...stats, reportTypesInternet: newTypes });
+                                            }}
+                                            className="p-2 text-red-500 hover:bg-red-50 rounded"
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                ))}
+                                {(stats.reportTypesInternet || []).length === 0 && (
+                                    <p className="text-sm text-gray-400 text-center py-4">No internet report types.</p>
+                                )}
+                            </div>
                         </div>
-                        <div className="max-h-60 overflow-y-auto pr-2">
-                            {stats.reportTypes.map((item, index) => (
-                                <div key={index} className="flex gap-4 mb-2">
-                                    <input
-                                        type="text"
-                                        value={item.label}
-                                        onChange={(e) => {
-                                            const newTypes = [...stats.reportTypes];
-                                            newTypes[index].label = e.target.value;
-                                            setStats({ ...stats, reportTypes: newTypes });
-                                        }}
-                                        className="flex-1 p-2 border border-gray-300 rounded-lg"
-                                        placeholder="Report Type"
-                                    />
-                                    <input
-                                        type="number"
-                                        value={item.count}
-                                        onChange={(e) => {
-                                            const newTypes = [...stats.reportTypes];
-                                            newTypes[index].count = parseInt(e.target.value);
-                                            setStats({ ...stats, reportTypes: newTypes });
-                                        }}
-                                        className="w-24 p-2 border border-gray-300 rounded-lg"
-                                    />
-                                    <button
-                                        onClick={() => {
-                                            const newTypes = stats.reportTypes.filter((_, i) => i !== index);
-                                            setStats({ ...stats, reportTypes: newTypes });
-                                        }}
-                                        className="p-2 text-red-500 hover:bg-red-50 rounded"
-                                    >
-                                        <Trash2 size={16} />
-                                    </button>
-                                </div>
-                            ))}
+
+                        {/* Report Types - Non-Internet */}
+                        <div>
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="font-bold text-gray-700">Report Types (Non-Internet)</h3>
+                                <button
+                                    onClick={() => {
+                                        const newTypes = [
+                                            ...(stats.reportTypesNonInternet || []),
+                                            { label: '', count: 0 }
+                                        ];
+                                        setStats({ ...stats, reportTypesNonInternet: newTypes });
+                                    }}
+                                    className="text-sm text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1"
+                                >
+                                    <Plus size={14} /> Add Type
+                                </button>
+                            </div>
+                            <div className="max-h-60 overflow-y-auto pr-2 border border-gray-100 rounded-lg p-2">
+                                {(stats.reportTypesNonInternet || []).map((item, index) => (
+                                    <div key={index} className="flex gap-4 mb-2">
+                                        <input
+                                            type="text"
+                                            value={item.label}
+                                            onChange={(e) => {
+                                                const newTypes = [...(stats.reportTypesNonInternet || [])];
+                                                newTypes[index].label = e.target.value;
+                                                setStats({ ...stats, reportTypesNonInternet: newTypes });
+                                            }}
+                                            className="flex-1 p-2 border border-gray-300 rounded-lg text-sm"
+                                            placeholder="Type Name"
+                                        />
+                                        <input
+                                            type="number"
+                                            value={item.count}
+                                            onChange={(e) => {
+                                                const newTypes = [...(stats.reportTypesNonInternet || [])];
+                                                newTypes[index].count = parseInt(e.target.value);
+                                                setStats({ ...stats, reportTypesNonInternet: newTypes });
+                                            }}
+                                            className="w-20 p-2 border border-gray-300 rounded-lg text-sm"
+                                        />
+                                        <button
+                                            onClick={() => {
+                                                const newTypes = stats.reportTypesNonInternet.filter((_, i) => i !== index);
+                                                setStats({ ...stats, reportTypesNonInternet: newTypes });
+                                            }}
+                                            className="p-2 text-red-500 hover:bg-red-50 rounded"
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                ))}
+                                {(stats.reportTypesNonInternet || []).length === 0 && (
+                                    <p className="text-sm text-gray-400 text-center py-4">No non-internet report types.</p>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div >
@@ -487,56 +581,141 @@ const Dashboard = () => {
                         {/* List & Form Column */}
                         <div className="space-y-6">
                             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                                <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-xl font-bold text-gray-800">Reports List</h2>
-                                    <button
-                                        onClick={handleAddReport}
-                                        className="flex items-center gap-2 bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition"
-                                    >
-                                        <Plus size={18} /> Add Report
-                                    </button>
-                                </div>
+                                <div className="flex flex-col gap-4 mb-6">
+                                    <div className="flex justify-between items-center">
+                                        <h2 className="text-xl font-bold text-gray-800">Reports List</h2>
+                                        <button
+                                            onClick={handleAddReport}
+                                            className="flex items-center gap-2 bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition"
+                                        >
+                                            <Plus size={18} /> Add Report
+                                        </button>
+                                    </div>
 
-                                <div className="space-y-4 max-h-[600px] overflow-y-auto">
-                                    {reports.map((report) => (
-                                        <div key={report.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition">
-                                            <div className="flex justify-between items-start">
-                                                <div>
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                        <h3 className="font-bold text-gray-800">{report.title}</h3>
-                                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium flex items-center gap-1
-                                                        ${report.status === 'verified' ? 'bg-green-100 text-green-700' :
-                                                                report.status === 'rejected' ? 'bg-red-100 text-red-700' :
-                                                                    'bg-yellow-100 text-yellow-700'}`}>
-                                                            {report.status === 'verified' && <CheckCircle size={10} />}
-                                                            {report.status === 'rejected' && <XCircle size={10} />}
-                                                            {report.status === 'unverified' && <AlertCircle size={10} />}
-                                                            {report.status || 'unverified'}
-                                                        </span>
-                                                    </div>
-                                                    <p className="text-sm text-gray-600 mb-1">{report.demographics}</p>
-                                                    <div className="flex items-center gap-1 text-xs text-gray-500">
-                                                        <MapPin size={12} /> {report.originalCoords}
-                                                    </div>
-                                                </div>
-                                                <div className="flex gap-2">
-                                                    <button
-                                                        onClick={() => handleEditReport(report)}
-                                                        className="p-2 text-blue-600 hover:bg-blue-50 rounded"
-                                                    >
-                                                        <Edit size={16} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDeleteReport(report.id)}
-                                                        className="p-2 text-red-600 hover:bg-red-50 rounded"
-                                                    >
-                                                        <Trash2 size={16} />
-                                                    </button>
-                                                </div>
+                                    {/* Search & Filter Controls */}
+                                    <div className="flex flex-col md:flex-row gap-4">
+                                        <div className="flex-1 relative">
+                                            <input
+                                                type="text"
+                                                placeholder="Search reports..."
+                                                value={searchTerm}
+                                                onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
+                                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                            />
+                                            <div className="absolute left-3 top-2.5 text-gray-400">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                                             </div>
                                         </div>
-                                    ))}
+                                        <div className="w-full md:w-48">
+                                            <select
+                                                value={filterStatus}
+                                                onChange={(e) => { setFilterStatus(e.target.value); setCurrentPage(1); }}
+                                                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                                            >
+                                                <option value="all">All Status</option>
+                                                <option value="verified">Verified</option>
+                                                <option value="unverified">Unverified</option>
+                                                <option value="rejected">Rejected</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                {/* Reports List (New Design) */}
+                                <div className="space-y-4 max-h-[600px] overflow-y-auto pr-1">
+                                    {currentReports.length === 0 ? (
+                                        <div className="text-center py-10 text-gray-500">
+                                            No reports found matching your filters.
+                                        </div>
+                                    ) : (
+                                        currentReports.map((report) => (
+                                            <div key={report.id} className="bg-white border border-gray-200 rounded-lg p-3 hover:shadow-md transition duration-200 group">
+                                                <div className="flex gap-4">
+                                                    {/* Thumbnail */}
+                                                    <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0 border border-gray-200">
+                                                        <img
+                                                            src={report.image || 'https://placehold.co/100x100'}
+                                                            alt="Report"
+                                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                                            onError={(e) => e.target.src = 'https://placehold.co/100x100?text=No+Img'}
+                                                        />
+                                                    </div>
+
+                                                    {/* Content */}
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="flex justify-between items-start mb-1">
+                                                            <h3 className="font-bold text-gray-800 text-sm truncate pr-2" title={report.title}>
+                                                                {report.title || 'Untitled Report'}
+                                                            </h3>
+                                                            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                <button
+                                                                    onClick={() => handleEditReport(report)}
+                                                                    className="p-1.5 text-blue-600 hover:bg-blue-50 rounded"
+                                                                    title="Edit"
+                                                                >
+                                                                    <Edit size={14} />
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => handleDeleteReport(report.id)}
+                                                                    className="p-1.5 text-red-600 hover:bg-red-50 rounded"
+                                                                    title="Delete"
+                                                                >
+                                                                    <Trash2 size={14} />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="flex flex-wrap items-center gap-2 mb-2">
+                                                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide
+                                                                        ${report.status === 'verified' ? 'bg-green-100 text-green-700' :
+                                                                    report.status === 'rejected' ? 'bg-red-100 text-red-700' :
+                                                                        'bg-yellow-100 text-yellow-700'}`}>
+                                                                {report.status || 'unverified'}
+                                                            </span>
+                                                            <span className="text-xs text-gray-500 border-l border-gray-300 pl-2">
+                                                                {report.category === 'internet' ? 'Internet' : 'Non-Internet'}
+                                                            </span>
+                                                            {report.province && (
+                                                                <span className="text-xs text-gray-500 border-l border-gray-300 pl-2 flex items-center gap-1">
+                                                                    <MapPin size={10} /> {report.province}
+                                                                </span>
+                                                            )}
+                                                        </div>
+
+                                                        <p className="text-xs text-gray-600 line-clamp-2">
+                                                            {report.description || 'No description provided.'}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+
+                                {/* Pagination */}
+                                {totalPages > 1 && (
+                                    <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-100">
+                                        <div className="text-sm text-gray-500">
+                                            Page {currentPage} of {totalPages}
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button
+                                                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                                                disabled={currentPage === 1}
+                                                className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                            >
+                                                Previous
+                                            </button>
+                                            <button
+                                                onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                                                disabled={currentPage === totalPages}
+                                                className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                            >
+                                                Next
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
 

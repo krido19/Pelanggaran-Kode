@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, LogOut, User as UserIcon } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +10,13 @@ const Header = () => {
     const isHome = location.pathname === '/';
     const [isScrolled, setIsScrolled] = useState(false);
     const { language, toggleLanguage, t } = useLanguage();
+    const { user, signOut } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        await signOut();
+        navigate('/login');
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -19,8 +27,8 @@ const Header = () => {
     }, []);
 
     const headerClass = isHome && !isScrolled
-        ? "fixed top-0 w-full z-50 transition-all duration-300 bg-transparent"
-        : "sticky top-0 w-full z-50 transition-all duration-300 bg-white shadow-sm";
+        ? "fixed top-0 w-full z-[9999] transition-all duration-300 bg-transparent"
+        : "sticky top-0 w-full z-[9999] transition-all duration-300 bg-white shadow-sm";
 
     const textColorClass = isHome && !isScrolled ? "text-white" : "text-teal-600";
     const logoTextClass = isHome && !isScrolled ? "text-white" : "text-teal-500";
@@ -60,10 +68,26 @@ const Header = () => {
                             {language === 'id' ? 'ID' : 'EN'}
                         </span>
                     </button>
-                    {/* Dashboard Link for easy access */}
-                    <Link to="/dashboard" className={`bg-teal-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-teal-700 transition shadow-md`}>
-                        {t.nav.dashboard}
-                    </Link>
+                    {/* Dashboard Link - Only show if logged in */}
+                    {user ? (
+                        <div className="flex items-center gap-4">
+                            <Link to="/dashboard" className={`bg-teal-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-teal-700 transition shadow-md flex items-center gap-2`}>
+                                <UserIcon size={14} />
+                                {t.nav.dashboard}
+                            </Link>
+                            <button
+                                onClick={handleLogout}
+                                className={`text-teal-600 hover:text-teal-800 font-bold text-xs flex items-center gap-1 transition-colors`}
+                                title="Logout"
+                            >
+                                <LogOut size={16} />
+                            </button>
+                        </div>
+                    ) : (
+                        <Link to="/login" className={isHome && !isScrolled ? "text-white hover:text-teal-200 font-bold text-xs" : "text-teal-600 hover:text-teal-800 font-bold text-xs"}>
+                            {language === 'id' ? 'Masuk' : 'Log In'}
+                        </Link>
+                    )}
                 </nav>
 
                 {/* Mobile Menu Button */}

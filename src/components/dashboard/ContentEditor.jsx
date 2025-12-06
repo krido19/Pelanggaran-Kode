@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Save, Upload, ChevronDown, ChevronUp, CheckCircle, AlertCircle, Image as ImageIcon, Type, Map as MapIcon, Info, MessageSquare, Users, FileText, Globe } from 'lucide-react';
+import { Save, Upload, ChevronDown, ChevronUp, CheckCircle, AlertCircle, Image as ImageIcon, Type, Map as MapIcon, Info, MessageSquare, Users, FileText, Globe, X } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 // Toast Notification Component
@@ -121,8 +121,8 @@ const ContentEditor = () => {
                     <button
                         onClick={() => setEditLanguage('id')}
                         className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${editLanguage === 'id'
-                                ? 'bg-teal-600 text-white shadow-sm'
-                                : 'text-gray-600 hover:bg-gray-50'
+                            ? 'bg-teal-600 text-white shadow-sm'
+                            : 'text-gray-600 hover:bg-gray-50'
                             }`}
                     >
                         Indonesia (ID)
@@ -130,8 +130,8 @@ const ContentEditor = () => {
                     <button
                         onClick={() => setEditLanguage('en')}
                         className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${editLanguage === 'en'
-                                ? 'bg-teal-600 text-white shadow-sm'
-                                : 'text-gray-600 hover:bg-gray-50'
+                            ? 'bg-teal-600 text-white shadow-sm'
+                            : 'text-gray-600 hover:bg-gray-50'
                             }`}
                     >
                         English (EN)
@@ -210,8 +210,8 @@ const ContentEditor = () => {
                                 <input
                                     key={`subtitle-${editLanguage}`} // Force re-render on language switch
                                     type="text"
-                                    defaultValue={getValue('hero_subtitle', "Platform Pelaporan")}
-                                    onBlur={(e) => handleSave('hero_subtitle', e.target.value)}
+                                    defaultValue={getValue('hero_subtitle_v2', "Portal Pemantauan Independen")}
+                                    onBlur={(e) => handleSave('hero_subtitle_v2', e.target.value)}
                                     className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                                 />
                             </div>
@@ -220,8 +220,8 @@ const ContentEditor = () => {
                                 <input
                                     key={`ver-${editLanguage}`}
                                     type="text"
-                                    defaultValue={getValue('hero_ver', "Ver 2.0 (2024)")}
-                                    onBlur={(e) => handleSave('hero_ver', e.target.value)}
+                                    defaultValue={getValue('hero_ver_v2', "Edisi Terbaru 2025")}
+                                    onBlur={(e) => handleSave('hero_ver_v2', e.target.value)}
                                     className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                                 />
                             </div>
@@ -230,8 +230,8 @@ const ContentEditor = () => {
                                 <input
                                     key={`title-${editLanguage}`}
                                     type="text"
-                                    defaultValue={getValue('hero_title', "Pelanggaran Kode Internasional<br />Pemasaran Pengganti ASI")}
-                                    onBlur={(e) => handleSave('hero_title', e.target.value)}
+                                    defaultValue={getValue('hero_title_v2', "Pengawasan Etika Pemasaran<br />Produk Nutrisi Bayi")}
+                                    onBlur={(e) => handleSave('hero_title_v2', e.target.value)}
                                     className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                                 />
                             </div>
@@ -239,8 +239,8 @@ const ContentEditor = () => {
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                                 <textarea
                                     key={`desc-${editLanguage}`}
-                                    defaultValue={getValue('hero_desc', "Mari bersama-sama melindungi anak-anak, ibu, keluarga dan kita semua dari praktik pemasaran susu formula dan semua produk pengganti ASI lainnya yang menyesatkan.")}
-                                    onBlur={(e) => handleSave('hero_desc', e.target.value)}
+                                    defaultValue={getValue('hero_desc_v2', "Bersama melindungi hak kesehatan ibu dan anak dari pengaruh pemasaran produk pengganti ASI yang tidak etis dan menyesatkan publik.")}
+                                    onBlur={(e) => handleSave('hero_desc_v2', e.target.value)}
                                     className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                                     rows="3"
                                 ></textarea>
@@ -250,8 +250,8 @@ const ContentEditor = () => {
                                 <input
                                     key={`btn1-${editLanguage}`}
                                     type="text"
-                                    defaultValue={getValue('hero_btn_primary', "Laporkan Pelanggaran")}
-                                    onBlur={(e) => handleSave('hero_btn_primary', e.target.value)}
+                                    defaultValue={getValue('hero_btn_primary_v2', "Ajukan Laporan")}
+                                    onBlur={(e) => handleSave('hero_btn_primary_v2', e.target.value)}
                                     className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                                 />
                             </div>
@@ -260,8 +260,8 @@ const ContentEditor = () => {
                                 <input
                                     key={`btn2-${editLanguage}`}
                                     type="text"
-                                    defaultValue={getValue('hero_btn_secondary', "Pelajari Selengkapnya")}
-                                    onBlur={(e) => handleSave('hero_btn_secondary', e.target.value)}
+                                    defaultValue={getValue('hero_btn_secondary_v2', "Pelajari Kode Etik")}
+                                    onBlur={(e) => handleSave('hero_btn_secondary_v2', e.target.value)}
                                     className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                                 />
                             </div>
@@ -308,8 +308,8 @@ const ContentEditor = () => {
                         <input
                             key={`info1_title-${editLanguage}`}
                             type="text"
-                            defaultValue={getValue('info1_title', "What is International Code of Marketing of Breastmilk Substitutes?")}
-                            onBlur={(e) => handleSave('info1_title', e.target.value)}
+                            defaultValue={getValue('info1_title_v2', "Apa itu Kode Etik Pemasaran Internasional?")}
+                            onBlur={(e) => handleSave('info1_title_v2', e.target.value)}
                             className="w-full p-2 border border-gray-300 rounded-lg"
                         />
                     </div>
@@ -326,8 +326,8 @@ const ContentEditor = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
                         <textarea
                             key={`info1_content-${editLanguage}`}
-                            defaultValue={getValue('info1_content', "The Code is a global framework that regulates the marketing of breastmilk substitutes...")}
-                            onBlur={(e) => handleSave('info1_content', e.target.value)}
+                            defaultValue={getValue('info1_content_v2', "Kode Etik ini adalah kerangka kerja global yang bertujuan melindungi praktik pemberian ASI dengan mengatur tata cara pemasaran produk pengganti ASI agar tidak menyesatkan publik.\n\nSetiap negara anggota WHO direkomendasikan untuk mengadopsi Kode ini ke dalam instrumen hukum nasional.\n\nIndustri makanan bayi diwajibkan untuk mematuhi standar etika ini demi kesehatan generasi mendatang.")}
+                            onBlur={(e) => handleSave('info1_content_v2', e.target.value)}
                             className="w-full p-2 border border-gray-300 rounded-lg"
                             rows="5"
                         ></textarea>
@@ -343,8 +343,8 @@ const ContentEditor = () => {
                         <input
                             key={`info2_title-${editLanguage}`}
                             type="text"
-                            defaultValue={getValue('info2_title', "Why the Code is important?")}
-                            onBlur={(e) => handleSave('info2_title', e.target.value)}
+                            defaultValue={getValue('info2_title_v2', "Mengapa Hal Ini Kritis?")}
+                            onBlur={(e) => handleSave('info2_title_v2', e.target.value)}
                             className="w-full p-2 border border-gray-300 rounded-lg"
                         />
                     </div>
@@ -352,8 +352,8 @@ const ContentEditor = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
                         <textarea
                             key={`info2_content-${editLanguage}`}
-                            defaultValue={getValue('info2_content', "The Code is issued as a response...")}
-                            onBlur={(e) => handleSave('info2_content', e.target.value)}
+                            defaultValue={getValue('info2_content_v2', "Kode ini hadir sebagai respons terhadap promosi agresif yang seringkali mengabaikan fakta ilmiah tentang keunggulan ASI, membahayakan kesehatan bayi di seluruh dunia.\n\n* Kode ini berlaku bersama dengan Resolusi WHA terkait")}
+                            onBlur={(e) => handleSave('info2_content_v2', e.target.value)}
                             className="w-full p-2 border border-gray-300 rounded-lg"
                             rows="4"
                         ></textarea>
@@ -379,8 +379,8 @@ const ContentEditor = () => {
                             <input
                                 key={`info3_title-${editLanguage}`}
                                 type="text"
-                                defaultValue={getValue('info3_title', "WHA Resolutions Code")}
-                                onBlur={(e) => handleSave('info3_title', e.target.value)}
+                                defaultValue={getValue('info3_title_v2', "Resolusi WHA Terkait")}
+                                onBlur={(e) => handleSave('info3_title_v2', e.target.value)}
                                 className="w-full p-2 border border-gray-300 rounded-lg"
                             />
                         </div>
@@ -389,8 +389,8 @@ const ContentEditor = () => {
                             <input
                                 key={`info3_subtitle-${editLanguage}`}
                                 type="text"
-                                defaultValue={getValue('info3_subtitle', "Relevant WHA resolutions...")}
-                                onBlur={(e) => handleSave('info3_subtitle', e.target.value)}
+                                defaultValue={getValue('info3_subtitle_v2', "Landasan Hukum Internasional untuk perlindungan nutrisi bayi dan anak.")}
+                                onBlur={(e) => handleSave('info3_subtitle_v2', e.target.value)}
                                 className="w-full p-2 border border-gray-300 rounded-lg"
                             />
                         </div>
@@ -399,8 +399,8 @@ const ContentEditor = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">Resolutions List (One per line)</label>
                         <textarea
                             key={`info3_list-${editLanguage}`}
-                            defaultValue={getValue('info3_list', "Concerning Free BMS...")}
-                            onBlur={(e) => handleSave('info3_list', e.target.value)}
+                            defaultValue={getValue('info3_list_v2', "Resolusi tentang Pemasaran Produk Pengganti ASI (1981...)\nPelarangan donasi produk ke fasilitas kesehatan\nMenghindari konflik kepentingan pada tenaga kesehatan\nRekomendasi ASI eksklusif 6 bulan dan MPASI yang aman (2001)\nStrategi Global Pemberian Makan Bayi dan Anak (2002)\nPengawasan klaim nutrisi dan kesehatan pada produk (2005)\nPenguatan monitoring dan penegakan hukum nasional (2008)\nMengakhiri promosi yang tidak pantas untuk makanan bayi hingga usia 3 tahun (2016)")}
+                            onBlur={(e) => handleSave('info3_list_v2', e.target.value)}
                             className="w-full p-2 border border-gray-300 rounded-lg font-mono text-sm"
                             rows="8"
                         ></textarea>
@@ -426,8 +426,8 @@ const ContentEditor = () => {
                             <input
                                 key={`info4_title-${editLanguage}`}
                                 type="text"
-                                defaultValue={getValue('info4_title', "Violations...")}
-                                onBlur={(e) => handleSave('info4_title', e.target.value)}
+                                defaultValue={getValue('info4_title_v2', "Laporkan Pelanggaran")}
+                                onBlur={(e) => handleSave('info4_title_v2', e.target.value)}
                                 className="w-full p-2 border border-gray-300 rounded-lg"
                             />
                         </div>
@@ -436,8 +436,8 @@ const ContentEditor = () => {
                             <input
                                 key={`info4_subtitle-${editLanguage}`}
                                 type="text"
-                                defaultValue={getValue('info4_subtitle', "You can report")}
-                                onBlur={(e) => handleSave('info4_subtitle', e.target.value)}
+                                defaultValue={getValue('info4_subtitle_v2', "Mudah & Cepat")}
+                                onBlur={(e) => handleSave('info4_subtitle_v2', e.target.value)}
                                 className="w-full p-2 border border-gray-300 rounded-lg"
                             />
                         </div>
@@ -448,8 +448,8 @@ const ContentEditor = () => {
                             <input
                                 key={`info4_desc-${editLanguage}`}
                                 type="text"
-                                defaultValue={getValue('info4_desc', "Through the Chatbot")}
-                                onBlur={(e) => handleSave('info4_desc', e.target.value)}
+                                defaultValue={getValue('info4_desc_v2', "Kirim bukti foto melalui WhatsApp kami")}
+                                onBlur={(e) => handleSave('info4_desc_v2', e.target.value)}
                                 className="w-full p-2 border border-gray-300 rounded-lg"
                             />
                         </div>
@@ -469,27 +469,139 @@ const ContentEditor = () => {
                 </div>
             </CollapsibleSection>
 
-            {/* Visibility Settings - Shared */}
+            {/* Supported By Section */}
+            <CollapsibleSection title="Supported By Section" icon={Users}>
+                <div className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Section Title</label>
+                        <input
+                            key={`supported_title-${editLanguage}`}
+                            type="text"
+                            defaultValue={getValue('supported_title_v2', "Mitra Koalisi")}
+                            onBlur={(e) => handleSave('supported_title_v2', e.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                        />
+                    </div>
+
+                    {/* Dynamic Logo Management */}
+                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 className="font-bold text-gray-800 mb-4">Manage Logos</h4>
+
+                        {/* List of current logos */}
+                        <div className="space-y-3 mb-6">
+                            {(() => {
+                                const list = JSON.parse(localStorage.getItem('supporters_list') || '[]');
+                                if (list.length === 0) {
+                                    return <p className="text-sm text-gray-400 italic">No custom logos. Default styling will be used.</p>;
+                                }
+                                return list.map((supporter, idx) => (
+                                    <div key={supporter.id} className="flex items-center justify-between bg-white p-3 rounded border border-gray-200 shadow-sm">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-12 h-12 bg-gray-50 rounded flex items-center justify-center p-1">
+                                                <img src={supporter.logo} alt={supporter.name} className="max-h-full max-w-full object-contain" />
+                                            </div>
+                                            <span className="font-medium text-sm text-gray-700">{supporter.name}</span>
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                const newList = list.filter(item => item.id !== supporter.id);
+                                                localStorage.setItem('supporters_list', JSON.stringify(newList));
+                                                showToast('Logo removed');
+                                                // Force re-render
+                                                window.dispatchEvent(new Event('storage'));
+                                                setEditLanguage(prev => prev === 'id' ? 'id' : 'en'); // Dummy state update to trigger render
+                                            }}
+                                            className="text-red-500 hover:text-red-700 p-1"
+                                            title="Remove"
+                                        >
+                                            <X size={16} />
+                                        </button>
+                                    </div>
+                                ));
+                            })()}
+                        </div>
+
+                        {/* Add New Form */}
+                        <div className="border-t border-gray-200 pt-4">
+                            <h5 className="text-sm font-bold text-gray-700 mb-3">Add New Partner</h5>
+                            <div className="space-y-3">
+                                <input
+                                    type="text"
+                                    placeholder="Partner Name"
+                                    id="new-supporter-name"
+                                    className="w-full p-2 text-sm border border-gray-300 rounded"
+                                />
+                                <div className="flex gap-2">
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        id="new-supporter-logo"
+                                        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100"
+                                    />
+                                    <button
+                                        onClick={async () => {
+                                            const nameInput = document.getElementById('new-supporter-name');
+                                            const fileInput = document.getElementById('new-supporter-logo');
+                                            const name = nameInput.value;
+                                            const file = fileInput.files[0];
+
+                                            if (!name || !file) {
+                                                showToast('Please provide both name and logo', 'error');
+                                                return;
+                                            }
+
+                                            try {
+                                                setUploading(true);
+                                                const fileExt = file.name.split('.').pop();
+                                                const fileName = `supporter-${Date.now()}.${fileExt}`;
+
+                                                const { error: uploadError } = await supabase.storage
+                                                    .from('evidence')
+                                                    .upload(fileName, file);
+
+                                                if (uploadError) throw uploadError;
+
+                                                const { data } = supabase.storage
+                                                    .from('evidence')
+                                                    .getPublicUrl(fileName);
+
+                                                if (data) {
+                                                    const list = JSON.parse(localStorage.getItem('supporters_list') || '[]');
+                                                    list.push({
+                                                        id: Date.now(),
+                                                        name: name,
+                                                        logo: data.publicUrl
+                                                    });
+                                                    localStorage.setItem('supporters_list', JSON.stringify(list));
+
+                                                    // Reset form
+                                                    nameInput.value = '';
+                                                    fileInput.value = '';
+                                                    showToast('Partner added successfully!');
+                                                    // Force re-render
+                                                    setEditLanguage(prev => prev === 'id' ? 'id' : 'en');
+                                                }
+                                            } catch (error) {
+                                                console.error(error);
+                                                showToast('Upload failed: ' + error.message, 'error');
+                                            } finally {
+                                                setUploading(false);
+                                            }
+                                        }}
+                                        disabled={uploading}
+                                        className="bg-teal-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-teal-700 disabled:opacity-50 whitespace-nowrap"
+                                    >
+                                        {uploading ? 'Adding...' : 'Add Partner'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </CollapsibleSection>
             <CollapsibleSection title="Section Visibility (Shared)" icon={Users}>
                 <div className="space-y-4">
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                        <div>
-                            <h4 className="font-bold text-gray-800">Supported By Section</h4>
-                            <p className="text-sm text-gray-500">Toggle visibility of the partner logos section</p>
-                        </div>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                            <input
-                                type="checkbox"
-                                defaultChecked={localStorage.getItem('show_supporters') !== 'false'}
-                                onChange={(e) => {
-                                    localStorage.setItem('show_supporters', e.target.checked);
-                                    showToast('Visibility settings updated');
-                                }}
-                                className="sr-only peer"
-                            />
-                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div>
-                        </label>
-                    </div>
+
 
                     <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                         <div>

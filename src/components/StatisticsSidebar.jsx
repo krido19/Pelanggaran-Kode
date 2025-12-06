@@ -50,6 +50,8 @@ const StatisticsSidebar = () => {
     let genderDist = statsData.genderDistribution;
     let platformDist = statsData.platformDistribution;
     let provinceRanking = statsData.provinceRanking;
+    let internetTypes = statsData.reportTypesInternet || [];
+    let nonInternetTypes = statsData.reportTypesNonInternet || [];
 
     // Attempt to load from localStorage if available (simple JSON check)
     try {
@@ -60,6 +62,8 @@ const StatisticsSidebar = () => {
             if (parsed.genderDistribution) genderDist = parsed.genderDistribution;
             if (parsed.platformDistribution) platformDist = parsed.platformDistribution;
             if (parsed.provinceRanking) provinceRanking = parsed.provinceRanking;
+            if (parsed.reportTypesInternet) internetTypes = parsed.reportTypesInternet;
+            if (parsed.reportTypesNonInternet) nonInternetTypes = parsed.reportTypesNonInternet;
         }
     } catch (e) {
         // Fallback to mock
@@ -172,15 +176,31 @@ const StatisticsSidebar = () => {
                 </div>
             </div>
 
-            {/* Report Types - Using static labels because types might be hardcoded in mock data */}
-            <div className="mb-8">
-                <h3 className="font-bold text-gray-800 mb-4">{t.report_type}</h3>
-                {/* This section would need more complex logic if Report Types text itself needs translation, keeping it simple for now */}
-                <div className="space-y-3">
-                    {statsData.reportTypes.map((item, index) => (
-                        <div key={index} className="flex justify-between text-sm border-b border-gray-50 pb-2 last:border-0">
+            {/* Report Types - Internet */}
+            <div className="mb-6">
+                <h3 className="font-bold text-gray-800 mb-3 text-sm uppercase tracking-wide border-l-4 border-blue-500 pl-2">
+                    {language === 'id' ? 'Pelaporan Internet' : 'Internet Reports'}
+                </h3>
+                <div className="space-y-2">
+                    {internetTypes.map((item, index) => (
+                        <div key={index} className="flex justify-between text-sm border-b border-gray-50 pb-2 last:border-0 last:pb-0">
                             <span className="text-gray-600 pr-4">{item.label}</span>
-                            <span className="font-bold text-teal-600 whitespace-nowrap">{item.count}</span>
+                            <span className="font-bold text-blue-600 whitespace-nowrap">{item.count}</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Report Types - Non-Internet */}
+            <div className="mb-8">
+                <h3 className="font-bold text-gray-800 mb-3 text-sm uppercase tracking-wide border-l-4 border-green-500 pl-2">
+                    {language === 'id' ? 'Pelaporan Luar Jaringan' : 'Non-Internet Reports'}
+                </h3>
+                <div className="space-y-2">
+                    {nonInternetTypes.map((item, index) => (
+                        <div key={index} className="flex justify-between text-sm border-b border-gray-50 pb-2 last:border-0 last:pb-0">
+                            <span className="text-gray-600 pr-4">{item.label}</span>
+                            <span className="font-bold text-green-600 whitespace-nowrap">{item.count}</span>
                         </div>
                     ))}
                 </div>

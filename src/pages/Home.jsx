@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MessageCircle, ArrowRight, Calendar, User } from 'lucide-react';
-import { articles } from '../data/mockData';
+import { articles, statsData } from '../data/mockData';
 import Map from '../components/Map';
 import { useLanguage } from '../context/LanguageContext';
 
 const Home = () => {
     const showArticles = localStorage.getItem('show_articles') !== 'false';
     const showSupporters = localStorage.getItem('show_supporters') !== 'false';
-    const { t, getLocalizedContent } = useLanguage();
+    const { t, getLocalizedContent, language } = useLanguage();
 
     return (
         <div className="space-y-12 pb-12 bg-gray-50">
@@ -28,31 +28,31 @@ const Home = () => {
                 <div className="container mx-auto px-4 relative z-10 pt-20">
                     <div className="max-w-2xl">
                         <p className="text-gray-500 text-lg mb-2 font-medium">
-                            {getLocalizedContent('hero_subtitle', "Platform Pelaporan")}
+                            {getLocalizedContent('hero_subtitle_v2', "Portal Pemantauan Independen")}
                         </p>
                         <h1 className="text-4xl md:text-6xl font-bold text-teal-800 leading-tight mb-6"
-                            dangerouslySetInnerHTML={{ __html: getLocalizedContent('hero_title', "Pelanggaran Kode Internasional<br />Pemasaran Pengganti ASI") }}
+                            dangerouslySetInnerHTML={{ __html: getLocalizedContent('hero_title_v2', "Pengawasan Etika Pemasaran<br />Produk Nutrisi Bayi") }}
                         />
                         <div className="mb-8">
                             <span className="bg-teal-600 text-white text-sm font-bold px-4 py-2 rounded-full shadow-md">
-                                {localStorage.getItem('hero_ver') || "Ver 2.0 (2024)"}
+                                {localStorage.getItem('hero_ver_v2') || "Edisi Terbaru 2025"}
                             </span>
                         </div>
                         <p className="text-gray-700 text-xl mb-10 leading-relaxed max-w-xl">
-                            {getLocalizedContent('hero_desc', "Mari bersama-sama melindungi anak-anak, ibu, keluarga dan kita semua dari praktik pemasaran susu formula dan semua produk pengganti ASI lainnya yang menyesatkan.")}
+                            {getLocalizedContent('hero_desc_v2', "Bersama melindungi hak kesehatan ibu dan anak dari pengaruh pemasaran produk pengganti ASI yang tidak etis dan menyesatkan publik.")}
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Link
                                 to="/report"
                                 className="bg-teal-600 text-white px-8 py-4 rounded-full font-bold hover:bg-teal-700 transition text-center shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                             >
-                                {getLocalizedContent('hero_btn_primary', t.home.report_btn)}
+                                {getLocalizedContent('hero_btn_primary_v2', "Ajukan Laporan")}
                             </Link>
                             <Link
                                 to="/about"
                                 className="bg-white text-teal-600 border-2 border-teal-600 px-8 py-4 rounded-full font-bold hover:bg-teal-50 transition text-center shadow-md hover:shadow-lg"
                             >
-                                {getLocalizedContent('hero_btn_secondary', t.home.learn_more_btn)}
+                                {getLocalizedContent('hero_btn_secondary_v2', "Pelajari Kode Etik")}
                             </Link>
                         </div>
                     </div>
@@ -72,10 +72,10 @@ const Home = () => {
                         </div>
                         <div className="w-full md:w-2/3">
                             <h2 className="text-3xl font-bold text-teal-600 mb-6">
-                                {getLocalizedContent('info1_title', "What is International Code of Marketing of Breastmilk Substitutes?")}
+                                {getLocalizedContent('info1_title_v2', "Apa itu Kode Etik Pemasaran Internasional?")}
                             </h2>
                             <div className="space-y-4 text-gray-600 leading-relaxed text-lg">
-                                {(getLocalizedContent('info1_content', "The Code is a global framework that regulates the marketing of breastmilk substitutes, issued by the World Health Organization in 1981 WHA (the World Health Assembly).\n\nAll WHO member state is recommended to adopt the Code into national legal instruments\n\nMeanwhile the baby food industry is required to comply with the Code")).split('\n\n').map((paragraph, idx) => (
+                                {(getLocalizedContent('info1_content_v2', "Kode Etik ini adalah kerangka kerja global yang bertujuan melindungi praktik pemberian ASI dengan mengatur tata cara pemasaran produk pengganti ASI agar tidak menyesatkan publik.\n\nSetiap negara anggota WHO direkomendasikan untuk mengadopsi Kode ini ke dalam instrumen hukum nasional.\n\nIndustri makanan bayi diwajibkan untuk mematuhi standar etika ini demi kesehatan generasi mendatang.")).split('\n\n').map((paragraph, idx) => (
                                     <p key={idx}>{paragraph}</p>
                                 ))}
                             </div>
@@ -88,10 +88,10 @@ const Home = () => {
             <section className="py-16 bg-teal-50">
                 <div className="container mx-auto px-4 text-center max-w-4xl">
                     <h2 className="text-2xl font-bold text-teal-700 mb-6">
-                        {getLocalizedContent('info2_title', "Why the Code is important?")}
+                        {getLocalizedContent('info2_title_v2', "Mengapa Hal Ini Kritis?")}
                     </h2>
                     <div className="text-gray-700 leading-relaxed text-lg space-y-4">
-                        {(getLocalizedContent('info2_content', "The Code is issued as a response to the aggresive marketing of and the use of breastmilk substitutes which has led to infant mortality and morbidity\n\n* The Code applies with it subsequent WHA Resolutions")).split('\n\n').map((paragraph, idx) => (
+                        {(getLocalizedContent('info2_content_v2', "Kode ini hadir sebagai respons terhadap promosi agresif yang seringkali mengabaikan fakta ilmiah tentang keunggulan ASI, membahayakan kesehatan bayi di seluruh dunia.\n\n* Kode ini berlaku bersama dengan Resolusi WHA terkait")).split('\n\n').map((paragraph, idx) => (
                             <p key={idx} className={paragraph.startsWith('*') ? "text-teal-600 font-bold text-sm mt-4" : ""}>
                                 {paragraph}
                             </p>
@@ -116,17 +116,17 @@ const Home = () => {
                     <div className="max-w-4xl mx-auto">
                         <div className="mb-12 text-center">
                             <h2 className="text-3xl font-bold mb-4">
-                                {getLocalizedContent('info3_title', "WHA Resolutions Code")}
+                                {getLocalizedContent('info3_title_v2', "Resolusi WHA Terkait")}
                             </h2>
                             <p className="text-teal-100 text-lg">
-                                {getLocalizedContent('info3_subtitle', "Relevant WHA resolutions are recommendations on the provisions of infant and young chil feeding. The subsequent WHA Resolutions are a response to the updated situation (of the unethical marketing of BMS)")}
+                                {getLocalizedContent('info3_subtitle_v2', "Landasan Hukum Internasional untuk perlindungan nutrisi bayi dan anak.")}
                             </p>
                         </div>
 
                         <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/20">
-                            <h3 className="font-bold text-xl mb-6 border-b border-white/20 pb-4">Relevant WHA Resolutions</h3>
+                            <h3 className="font-bold text-xl mb-6 border-b border-white/20 pb-4">Daftar Resolusi Penting</h3>
                             <ul className="space-y-3 text-sm md:text-base">
-                                {(getLocalizedContent('info3_list', "Concerning Free BMS (1986 1992 1994)\nPractice of providing infants with follow up milks is not necessary (1986)\nFinancial support to health professionals does not create conflicts of interests (2005)\nRecommendation of '6 months' exclusive breastfeeding, with safe and appropriate complementary foods and continued breastfeeding for up to two years or beyond (2001, 2005)\nEndorses the Global Strategy on Infant and Young Child Feeding (2002)\nEnsure that nutrition and health claims for BMS are not permitted unless national egislation allows (2005)\nUrges Member States to scale up efforts to monitor and enforce national measures and to avoid conflicts of interest (2008)\nTo end inappropriate promotion of foods for infants and young children and to ensure that claims not be permitted for foods for infants and young children (2010)\nDeveloping or strengthening legislative, regulatory or other measures to control the marketing of breastmilk substitutes (2012)\nEnding inappropriate promotion of foods for infants and young children up to the age of three years (2016)\nTake all necessary measures to end inappropriate marketing of foods for infants and young children (2018)")).split('\n').map((item, idx) => (
+                                {(getLocalizedContent('info3_list_v2', "Resolusi tentang Pemasaran Produk Pengganti ASI (1981...)\nPelarangan donasi produk ke fasilitas kesehatan\nMenghindari konflik kepentingan pada tenaga kesehatan\nRekomendasi ASI eksklusif 6 bulan dan MPASI yang aman (2001)\nStrategi Global Pemberian Makan Bayi dan Anak (2002)\nPengawasan klaim nutrisi dan kesehatan pada produk (2005)\nPenguatan monitoring dan penegakan hukum nasional (2008)\nMengakhiri promosi yang tidak pantas untuk makanan bayi hingga usia 3 tahun (2016)")).split('\n').map((item, idx) => (
                                     <li key={idx} className="flex items-start gap-3">
                                         <span className="mt-1.5 w-1.5 h-1.5 bg-teal-300 rounded-full flex-shrink-0"></span>
                                         <span>{item}</span>
@@ -156,10 +156,10 @@ const Home = () => {
                                         {article.date}
                                     </div>
                                     <h3 className="text-lg font-bold text-teal-700 mb-3 line-clamp-2 leading-tight">
-                                        {article.title}
+                                        {language === 'id' ? article.title : article.title_en}
                                     </h3>
                                     <p className="text-gray-600 mb-4 line-clamp-3 text-sm flex-1">
-                                        {article.excerpt}
+                                        {language === 'id' ? article.excerpt : article.excerpt_en}
                                     </p>
                                 </div>
                             </div>
@@ -193,13 +193,13 @@ const Home = () => {
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-2xl py-16">
                         <p className="text-teal-600 font-medium mb-2 text-lg">
-                            {getLocalizedContent('info4_subtitle', "You can report")}
+                            {getLocalizedContent('info4_subtitle_v2', "Mudah & Cepat")}
                         </p>
                         <h2 className="text-3xl md:text-5xl font-bold text-teal-800 mb-4 leading-tight">
-                            {getLocalizedContent('info4_title', "Violations of the International Code on Marketing of Breastmilk Substitutes")}
+                            {getLocalizedContent('info4_title_v2', "Laporkan Pelanggaran Kode Etik")}
                         </h2>
                         <p className="text-gray-500 mb-8 text-xl font-medium">
-                            {getLocalizedContent('info4_desc', "Through the Chatbot")}
+                            {getLocalizedContent('info4_desc_v2', "Kirim bukti foto dan lokasi melalui WhatsApp kami secara aman.")}
                         </p>
 
                         <a
@@ -228,19 +228,19 @@ const Home = () => {
                 {/* Stats Overlay */}
                 <div className="absolute top-0 left-0 right-0 z-10 grid grid-cols-4 text-white">
                     <div className="bg-teal-800 p-6 text-center">
-                        <h3 className="text-3xl font-bold mb-1">{localStorage.getItem('stats_verified') || "1425"}</h3>
+                        <h3 className="text-3xl font-bold mb-1">{statsData.verifiedReports}</h3>
                         <p className="text-sm font-medium">{t.stats.verified}</p>
                     </div>
                     <div className="bg-teal-600 p-6 text-center">
-                        <h3 className="text-3xl font-bold mb-1">{localStorage.getItem('stats_unverified') || "4"}</h3>
+                        <h3 className="text-3xl font-bold mb-1">{statsData.unverifiedReports}</h3>
                         <p className="text-sm font-medium">{t.stats.unverified}</p>
                     </div>
                     <div className="bg-teal-500 p-6 text-center">
-                        <h3 className="text-3xl font-bold mb-1">{localStorage.getItem('stats_rejected') || "90"}</h3>
+                        <h3 className="text-3xl font-bold mb-1">{statsData.rejectedReports}</h3>
                         <p className="text-sm font-medium">{t.stats.rejected}</p>
                     </div>
                     <div className="bg-teal-400 p-6 text-center">
-                        <h3 className="text-3xl font-bold mb-1">{localStorage.getItem('stats_total') || "1519"}</h3>
+                        <h3 className="text-3xl font-bold mb-1">{statsData.verifiedReports + statsData.unverifiedReports + statsData.rejectedReports}</h3>
                         <p className="text-sm font-medium">{t.stats.total}</p>
                     </div>
                 </div>
@@ -265,27 +265,49 @@ const Home = () => {
             {showSupporters && (
                 <section className="bg-teal-50 py-16">
                     <div className="container mx-auto px-4 text-center">
-                        <h2 className="text-2xl font-bold text-teal-700 mb-12">{t.home.supported_by}</h2>
+                        <h2 className="text-2xl font-bold text-teal-700 mb-12">
+                            {getLocalizedContent('supported_title', t.home.supported_by)}
+                        </h2>
                         <div className="flex flex-wrap justify-center items-center gap-12">
-                            {/* Placeholders for logos based on user image */}
-                            <div className="h-16 flex items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer">
-                                <span className="text-2xl font-bold text-green-600">aimi</span>
-                            </div>
-                            <div className="h-16 flex items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer">
-                                <div className="bg-blue-400 text-white p-2 rounded-full font-bold">Ayah<br />ASI</div>
-                            </div>
-                            <div className="h-16 flex items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer">
-                                <div className="border-2 border-blue-900 rounded-full p-2 font-bold text-blue-900">IBFAN</div>
-                            </div>
-                            <div className="h-16 flex items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer">
-                                <span className="text-2xl font-bold text-red-600">GKIA</span>
-                            </div>
-                            <div className="h-16 flex items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer">
-                                <span className="text-2xl font-bold text-blue-500">unicef</span>
-                            </div>
-                            <div className="h-16 flex items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer">
-                                <span className="text-xl font-bold text-blue-600">DIKTISAINTEK<br />BERDAMPAK</span>
-                            </div>
+                            {(() => {
+                                const supportersList = JSON.parse(localStorage.getItem('supporters_list') || '[]');
+
+                                if (supportersList.length > 0) {
+                                    return supportersList.map((supporter) => (
+                                        <div key={supporter.id} className="h-20 flex items-center justify-center p-2 opacity-80 hover:opacity-100 transition duration-300 cursor-pointer" title={supporter.name}>
+                                            <img
+                                                src={supporter.logo}
+                                                alt={supporter.name}
+                                                className="h-full w-auto object-contain max-w-[150px]"
+                                            />
+                                        </div>
+                                    ));
+                                }
+
+                                return (
+                                    <>
+                                        {/* Default hardcoded logos if no custom ones exist */}
+                                        <div className="h-16 flex items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer">
+                                            <span className="text-2xl font-bold text-green-600">aimi</span>
+                                        </div>
+                                        <div className="h-16 flex items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer">
+                                            <div className="bg-blue-400 text-white p-2 rounded-full font-bold">Ayah<br />ASI</div>
+                                        </div>
+                                        <div className="h-16 flex items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer">
+                                            <div className="border-2 border-blue-900 rounded-full p-2 font-bold text-blue-900">IBFAN</div>
+                                        </div>
+                                        <div className="h-16 flex items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer">
+                                            <span className="text-2xl font-bold text-red-600">GKIA</span>
+                                        </div>
+                                        <div className="h-16 flex items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer">
+                                            <span className="text-2xl font-bold text-blue-500">unicef</span>
+                                        </div>
+                                        <div className="h-16 flex items-center grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300 cursor-pointer">
+                                            <span className="text-xl font-bold text-blue-600">DIKTISAINTEK<br />BERDAMPAK</span>
+                                        </div>
+                                    </>
+                                );
+                            })()}
                         </div>
                     </div>
                 </section>
